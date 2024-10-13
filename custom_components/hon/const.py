@@ -222,7 +222,6 @@ AC_HUMAN_SENSE: dict[int, str] = {
 }
 
 AP_MACH_MODE: dict[int, str] = {
-    0: "standby",
     1: "sleep",
     2: "auto",
     3: "allergens",
