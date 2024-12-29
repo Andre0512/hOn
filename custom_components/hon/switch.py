@@ -5,10 +5,9 @@ from typing import Any
 
 from homeassistant.components.switch import SwitchEntityDescription, SwitchEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import callback
+from homeassistant.core import callback, HomeAssistant
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.typing import HomeAssistantType
 from pyhon.parameter.base import HonParameter
 from pyhon.parameter.range import HonParameterRange
 
@@ -403,7 +402,7 @@ SWITCHES["WD"] = unique_entities(SWITCHES["WD"], SWITCHES["TD"])
 
 
 async def async_setup_entry(
-    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     entities = []
     entity: HonConfigSwitchEntity | HonControlSwitchEntity | HonSwitchEntity
@@ -476,7 +475,7 @@ class HonSwitchEntity(HonEntity, SwitchEntity):
     def _handle_coordinator_update(self, update: bool = True) -> None:
         self._attr_is_on = self.is_on
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
 
 
 class HonControlSwitchEntity(HonEntity, SwitchEntity):
@@ -556,4 +555,4 @@ class HonConfigSwitchEntity(HonEntity, SwitchEntity):
     def _handle_coordinator_update(self, update: bool = True) -> None:
         self._attr_is_on = self.is_on
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
