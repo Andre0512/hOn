@@ -2,7 +2,8 @@
   "domain": "hon",
   "name": "Haier hOn",
   "codeowners": [
-    "@Andre0512"
+    "@Andre0512",
+    "@galvani"
   ],
   "config_flow": true,
   "documentation": "https://github.com/Andre0512/hon/",
@@ -11,5 +12,5 @@
   "requirements": [
     "pyhOn==0.17.5"
   ],
-  "version": "0.14.0"
+  "version": "0.14.1"
 }
