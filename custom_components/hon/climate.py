@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from dataclasses import dataclass
 from typing import Any
@@ -19,9 +20,8 @@ from homeassistant.const import (
     ATTR_TEMPERATURE,
     UnitOfTemperature,
 )
-from homeassistant.core import callback
+from homeassistant.core import callback, HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.typing import HomeAssistantType
 from pyhon.appliance import HonAppliance
 from pyhon.parameter.range import HonParameterRange
 
@@ -104,7 +104,7 @@ CLIMATES: dict[
 
 
 async def async_setup_entry(
-    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     entities = []
     entity: HonClimateEntity | HonACClimateEntity
@@ -130,7 +130,7 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
 
     def __init__(
         self,
-        hass: HomeAssistantType,
+        hass: HomeAssistant,
         entry: ConfigEntry,
         device: HonAppliance,
         description: HonACClimateEntityDescription,
@@ -290,7 +290,7 @@ class HonACClimateEntity(HonEntity, ClimateEntity):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
 
 
 class HonClimateEntity(HonEntity, ClimateEntity):
@@ -299,7 +299,7 @@ class HonClimateEntity(HonEntity, ClimateEntity):
 
     def __init__(
         self,
-        hass: HomeAssistantType,
+        hass: HomeAssistant,
         entry: ConfigEntry,
         device: HonAppliance,
         description: HonClimateEntityDescription,
@@ -423,4 +423,4 @@ class HonClimateEntity(HonEntity, ClimateEntity):
     @callback
     def _handle_coordinator_update(self, update: bool = True) -> None:
         if update:
-            self.async_write_ha_state()
+            self.schedule_update_ha_state()
